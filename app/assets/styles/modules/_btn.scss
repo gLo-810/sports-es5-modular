@@ -1,0 +1,31 @@
+@import '../base/_variables.scss';
+@import '../base/_mixins.scss';
+
+.btn {
+  border-radius: 4px;
+  border: none;
+  font-size: 1.2rem;
+  color: white;
+  background-color: lighten($mainTeal, 5%);
+  padding: 20px;
+  box-shadow: 0 5px;
+  // width: 120px;
+  text-align: center;
+  flex-basis: 50%;
+  box-sizing: border-box;
+
+  &:active{
+    box-shadow: 0 2px;
+    transform: translateY(4px);
+  }
+
+  @include bp-large {
+    padding: 10px;
+  }
+
+  @include bp-medium {
+    padding: 4px;
+    width: 80px;
+    flex-basis: 3%;
+  }
+}

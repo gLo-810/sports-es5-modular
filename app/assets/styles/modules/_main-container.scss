@@ -1,0 +1,11 @@
+@import '../base/_variables.scss';
+
+.main-container {
+ display: flex;
+
+ margin: auto;
+ max-width: 1300px;
+ min-height: 617px;
+ padding: 10px;
+ font-weight: 600;
+}

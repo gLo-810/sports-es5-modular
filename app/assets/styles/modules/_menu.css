@@ -1,0 +1,41 @@
+header {
+  display: flex;
+  margin: auto;
+  justify-content: center;
+  width: 300px;
+}
+
+header h1 {
+  margin: 8px 5px;
+}
+
+label {
+  font-size: 26px;
+  line-height: 39px;
+  display: none;
+}
+
+.menu {
+  border: 1px solid blue;
+  display: none;
+}
+
+#toggle {
+  display: none;
+}
+
+@media only screen and (max-width: 592px) {
+  label {
+    display: block;
+    cursor: pointer;
+    height: 40px;
+    margin-top: 10px;
+    margin-left: 4px;
+  }
+  .menu {
+    display: none;
+  }
+  #toggle:checked + .menu {
+    display: block;
+  }
+}

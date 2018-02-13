@@ -1,0 +1,11 @@
+ @import "_variables.scss";
+
+body {
+  background-color: $mainMatte;
+  font-family: sans-serif;
+  color: lighten($mainTeal, 15%);
+}
+
+h1 {
+  margin: 7px 10px 2px 0px;
+}
