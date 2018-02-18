@@ -1,14 +1,5 @@
 //Random CONTROLLER
 var randomController = (function(){
-
-  // save names without submitting
-  function saveNames() {
-    names = mainText.value.split('\n');
-    numbers = Array.from({length:names.length}).map((_,i)=>i); //creates a numbers array that is the same length as the names array, for indexing.
-  }
-  // save names to array, no submit button
-  mainText.addEventListener('blur', saveNames, false);
-
   // shuffle arrays
   function shuffle(a) {
     for (let i = a.length; i; i--) {
@@ -22,15 +13,32 @@ var randomController = (function(){
 // UI controller
 var UIController = (function(){
 
-  let pGrid = document.getElementsByClassName('pic-grid-container'),
-      // textarea = document.querySelector('textarea'),
-      baseball = document.getElementById('baseball'),
-      football = document.getElementById('football'),
-      display = document.getElementById('btn-display'),
-      reset = document.getElementById('btn-reset'),
-      mainText = document.getElementById('main-text'),
+  var DOMstrings = {
+    picGrid: 'pic-grid-container',
+    rBaseball: 'baseball',
+    rFootball: 'football',
+    btnDisplay: 'btn-display',
+    btnReset: 'btn-reset',
+    textArea: 'main-text',
+    picFrame: 'picture-frame';
+  }
+
+  var pGrid = document.getElementsByClassName(DOMstrings.picGrid),
+      baseball = document.getElementById(DOMstrings.rBaseball),
+      football = document.getElementById(DOMstrings.rFootall),
+      display = document.getElementById(DOMstrings.btnDisplay),
+      reset = document.getElementById(DOMstrings.btnReset),
+      mainText = document.getElementById(DOMstrings.textArea),
       names = [],
       numbers;
+
+      // save names without submitting
+      function saveNames() {
+        names = mainText.value.split('\n');
+
+        //creates a numbers array that is the same length as the names array, for indexing.
+        numbers = Array.from({length:names.length}).map((_,i)=>i);
+      }
 
       //display images with names
       function displayEls() {
@@ -42,7 +50,7 @@ var UIController = (function(){
               newImg = document.createElement('img'),
               newName = document.createElement('p');
         // append the elements
-          picContainer.className = "picture-frame";
+          picContainer.className = DOMstrings.picFrame;
           picContainer.appendChild(newImg);
           picContainer.appendChild(newName);
           newName.textContent = name;
@@ -56,23 +64,47 @@ var UIController = (function(){
         });
       }
 
+      return {
+        getDOMstrings: function() {
+          return DOMstrings;
+        }
+      };
+
 })();
 
 // GLOBAL APP controller
 var controller = (function(rCtrl, UICtrl){
 
-  display.addEventListener('click', function() {
-    displayEls();
-  });
+  var setupEventListeners = function(){
 
-  random.addEventListener('click', function() {
-    shuffle(names);
-    shuffle(numbers);
-    displayEls();
-  });
+    var DOM = UICtrl.getDOMstrings();
 
-  reset.addEventListener('click', function() {
-    pGrid[0].innerHTML = "";
-  });
+    // save names to array, no submit button
+    mainText.addEventListener('blur', saveNames, false);
+
+    display.addEventListener('click', function() {
+      displayEls();
+    });
+
+    random.addEventListener('click', function() {
+      shuffle(names);
+      shuffle(numbers);
+      displayEls();
+    });
+
+    reset.addEventListener('click', function() {
+      pGrid[0].innerHTML = "";
+    });
+
+  }
+
+  return {
+    init: function() {
+      console.log('app started!');
+      setupEventListeners();
+    }
+  }
 
 })(randomController,UIController);
+
+controller.init();
