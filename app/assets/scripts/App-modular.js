@@ -19,29 +19,34 @@ var UIController = (function(){
     rFootball: 'football',
     btnDisplay: 'btn-display',
     btnReset: 'btn-reset',
-    textArea: 'main-text',
-    picFrame: 'picture-frame';
+    mainText:  document.getElementById('main-text'),
+    names: [],
+    numbers: null,
+    picFrame: 'picture-frame'
   }
 
   var pGrid = document.getElementsByClassName(DOMstrings.picGrid),
       baseball = document.getElementById(DOMstrings.rBaseball),
       football = document.getElementById(DOMstrings.rFootall),
       display = document.getElementById(DOMstrings.btnDisplay),
-      reset = document.getElementById(DOMstrings.btnReset),
-      mainText = document.getElementById(DOMstrings.textArea),
-      names = [],
-      numbers;
+      reset = document.getElementById(DOMstrings.btnReset);
+      // mainText = document.getElementById(DOMstrings.textArea),
+      // names = [],
+      // numbers;
 
       // save names without submitting
-      function saveNames() {
-        names = mainText.value.split('\n');
+      var saveNames = function() {
+        DOMstrings.names = DOMstrings.mainText.value.split('\n');
 
         //creates a numbers array that is the same length as the names array, for indexing.
-        numbers = Array.from({length:names.length}).map((_,i)=>i);
+        DOMstrings.numbers = Array.from({length:DOMstrings.names.length}).map((_,i)=>i);
+
+        console.log(DOMstrings.names);
+        console.log(DOMstrings.numbers);
       }
 
       //display images with names
-      function displayEls() {
+      var displayTeams = function() {
         // clear content to start fresh
          pGrid[0].innerHTML = "";
         names.forEach(function(name, i) {
@@ -65,9 +70,15 @@ var UIController = (function(){
       }
 
       return {
+
         getDOMstrings: function() {
           return DOMstrings;
+        },
+
+        saveInput: function() {
+          return saveNames();
         }
+
       };
 
 })();
@@ -75,26 +86,28 @@ var UIController = (function(){
 // GLOBAL APP controller
 var controller = (function(rCtrl, UICtrl){
 
+
   var setupEventListeners = function(){
 
     var DOM = UICtrl.getDOMstrings();
 
+
     // save names to array, no submit button
-    mainText.addEventListener('blur', saveNames, false);
+    DOM.mainText.addEventListener('blur', UICtrl.saveInput, false);
 
-    display.addEventListener('click', function() {
-      displayEls();
-    });
-
-    random.addEventListener('click', function() {
-      shuffle(names);
-      shuffle(numbers);
-      displayEls();
-    });
-
-    reset.addEventListener('click', function() {
-      pGrid[0].innerHTML = "";
-    });
+    // display.addEventListener('click', function() {
+    //   displayEls();
+    // });
+    //
+    // random.addEventListener('click', function() {
+    //   shuffle(names);
+    //   shuffle(numbers);
+    //   displayEls();
+    // });
+    //
+    // reset.addEventListener('click', function() {
+    //   pGrid[0].innerHTML = "";
+    // });
 
   }
 
@@ -103,6 +116,7 @@ var controller = (function(rCtrl, UICtrl){
       console.log('app started!');
       setupEventListeners();
     }
+
   }
 
 })(randomController,UIController);
