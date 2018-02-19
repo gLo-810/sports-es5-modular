@@ -14,25 +14,16 @@ var randomController = (function(){
 var UIController = (function(){
 
   var DOMstrings = {
-    picGrid: 'pic-grid-container',
-    rBaseball: 'baseball',
-    rFootball: 'football',
-    btnDisplay: 'btn-display',
-    btnReset: 'btn-reset',
+    picGrid: document.getElementsByClassName('pic-grid-container'),
+    baseball: document.getElementById('baseball'),
+    football: document.getElementById('football'),
+    btnDisplay: document.getElementById('btn-display'),
+    btnReset:  document.getElementById('btn-reset'),
     mainText:  document.getElementById('main-text'),
     names: [],
     numbers: null,
     picFrame: 'picture-frame'
   }
-
-  var pGrid = document.getElementsByClassName(DOMstrings.picGrid),
-      baseball = document.getElementById(DOMstrings.rBaseball),
-      football = document.getElementById(DOMstrings.rFootall),
-      display = document.getElementById(DOMstrings.btnDisplay),
-      reset = document.getElementById(DOMstrings.btnReset);
-      // mainText = document.getElementById(DOMstrings.textArea),
-      // names = [],
-      // numbers;
 
       // save names without submitting
       var saveNames = function() {
@@ -46,12 +37,12 @@ var UIController = (function(){
       }
 
       //display images with names
-      var displayTeams = function() {
+      var display = function() {
         // clear content to start fresh
-         pGrid[0].innerHTML = "";
-        names.forEach(function(name, i) {
+        DOMstrings.picGrid[0].innerHTML = "";
+        DOMstrings.names.forEach(function(name, i) {
 
-            let picContainer = document.createElement('div'),
+          var picContainer = document.createElement('div'),
               newImg = document.createElement('img'),
               newName = document.createElement('p');
         // append the elements
@@ -61,11 +52,11 @@ var UIController = (function(){
           newName.textContent = name;
 
           if (baseball.checked) {
-                     newImg.src = "./assets/images/baseball/team" + numbers[i] + ".jpg";
-                   } else if (football.checked) {
-                     newImg.src = "./assets/images/football/team" + numbers[i] + ".gif";
-                   }
-          pGrid[0].appendChild(picContainer);
+                newImg.src = "./assets/images/baseball/team" + DOMstrings.numbers[i] + ".jpg";
+           } else if (football.checked) {
+                newImg.src = "./assets/images/football/team" + DOMstrings.numbers[i] + ".gif";
+           }
+          DOMstrings.picGrid[0].appendChild(picContainer);
         });
       }
 
@@ -77,6 +68,10 @@ var UIController = (function(){
 
         saveInput: function() {
           return saveNames();
+        },
+
+        displayTeams: function() {
+          return display();
         }
 
       };
@@ -95,19 +90,19 @@ var controller = (function(rCtrl, UICtrl){
     // save names to array, no submit button
     DOM.mainText.addEventListener('blur', UICtrl.saveInput, false);
 
-    // display.addEventListener('click', function() {
-    //   displayEls();
-    // });
-    //
+    DOM.btnDisplay.addEventListener('click', function() {
+      UICtrl.displayTeams();
+    });
+
     // random.addEventListener('click', function() {
     //   shuffle(names);
     //   shuffle(numbers);
     //   displayEls();
     // });
     //
-    // reset.addEventListener('click', function() {
-    //   pGrid[0].innerHTML = "";
-    // });
+    DOM.btnReset.addEventListener('click', function() {
+      DOM.picGrid[0].innerHTML = "";
+    });
 
   }
 
