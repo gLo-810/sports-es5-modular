@@ -1,14 +1,20 @@
-//Random CONTROLLER
-var randomController = (function(){
-  // shuffle arrays
-  function shuffle(a) {
-    for (let i = a.length; i; i--) {
-      let j = Math.floor(Math.random() * i);
-      [a[i - 1], a[j]] = [a[j], a[i - 1]];
-    }
-  }
-
-})();
+// //Random CONTROLLER
+// var randomController = (function(a){
+//   // shuffle arrays
+//   var fisherYates = function(a) {
+//       for (var i = a.length; i; i--) {
+//         var j = Math.floor(Math.random() * i);
+//         [a[i - 1], a[j]] = [a[j], a[i - 1]];
+//     }
+//   }
+//
+//   return {
+//     shuffle: function(){
+//       return fisherYates();
+//     }
+//   }
+//
+// })();
 
 // UI controller
 var UIController = (function(){
@@ -19,6 +25,7 @@ var UIController = (function(){
     football: document.getElementById('football'),
     btnDisplay: document.getElementById('btn-display'),
     btnReset:  document.getElementById('btn-reset'),
+    btnRandom: document.getElementById('random'),
     mainText:  document.getElementById('main-text'),
     names: [],
     numbers: null,
@@ -79,13 +86,20 @@ var UIController = (function(){
 })();
 
 // GLOBAL APP controller
-var controller = (function(rCtrl, UICtrl){
+var controller = (function(UICtrl){
+
 
 
   var setupEventListeners = function(){
 
     var DOM = UICtrl.getDOMstrings();
 
+    var shuffle = function(a) {
+          for (var i = a.length; i; i--) {
+            var j = Math.floor(Math.random() * i);
+            [a[i - 1], a[j]] = [a[j], a[i - 1]];
+        }
+      }
 
     // save names to array, no submit button
     DOM.mainText.addEventListener('blur', UICtrl.saveInput, false);
@@ -94,12 +108,12 @@ var controller = (function(rCtrl, UICtrl){
       UICtrl.displayTeams();
     });
 
-    // random.addEventListener('click', function() {
-    //   shuffle(names);
-    //   shuffle(numbers);
-    //   displayEls();
-    // });
-    //
+    DOM.btnRandom.addEventListener('click', function() {
+      shuffle(DOM.names);
+      shuffle(DOM.numbers);
+      UICtrl.displayTeams();
+    });
+
     DOM.btnReset.addEventListener('click', function() {
       DOM.picGrid[0].innerHTML = "";
     });
@@ -114,6 +128,6 @@ var controller = (function(rCtrl, UICtrl){
 
   }
 
-})(randomController,UIController);
+})(UIController);
 
 controller.init();
